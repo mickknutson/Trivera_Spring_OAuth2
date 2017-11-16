@@ -15,20 +15,16 @@ jobs:
 
     environment:
       _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
-#      LOCAL_REPO: ../../../Tools/local/repository
       LOCAL_REPO: ./StudentWork/Tools/local/repository
       BASE_DIR: ./StudentWork/code/oauth2-server/solution-code
-#      MAVEN_OPTS: "-Dmaven.repo.local=${LOCAL_REPO}"
 
     docker:
       - image: circleci/openjdk:8-jdk-browsers
         environment:
-#          LOCAL_REPO: ../../../Tools/local/repository
           LOCAL_REPO: ./StudentWork/Tools/local/repository
           BASE_DIR: ./StudentWork/code/oauth2-server/solution-code
-
           _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
-          MAVEN_OPTS: "-Dmaven.repo.local=${LOCAL_REPO}"
+#          MAVEN_OPTS: "-Dmaven.repo.local=${LOCAL_REPO}"
 
     steps:
 
@@ -59,15 +55,10 @@ jobs:
             ls -la ${LOCAL_REPO}
             ls -la ${BASE_DIR}
 
-#      - run: mvn test
       - run:
             name: Build the Project
-            command: mvn test -e -Dmaven.repo.local=${LOCAL_REPO}
-#            working_directory: ${BASE_DIR}
-            working_directory: ./StudentWork/code/oauth2-server/solution-code
-
-#            command: mvn test -e -Dmaven.repo.local=../../../Tools/local/repository
-      
+            command: mvn test -e -Dmaven.repo.local=../../../Tools/local/repository
+            working_directory: ${BASE_DIR}
       
       - run:
           command: |
@@ -76,6 +67,7 @@ jobs:
             ls -la ${LOCAL_REPO}
             ls -la ${BASE_DIR}
             ls -la ${BASE_DIR}/target
+            ls -la ${BASE_DIR}/target/surefire-reports
 
 
       - store_test_results:
