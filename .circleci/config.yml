@@ -65,6 +65,7 @@ jobs:
           when: always
 
       - store_test_results:
+          name: Store test results
           path: ~/junit
 
       - store_artifacts:
@@ -76,12 +77,6 @@ jobs:
             mkdir -p ~/junit/
             find . -type f -regex ".*/target/jacoco/.*xml" -exec cp {} ~/junit/ \;
             bash <(curl -s https://codecov.io/bash)
-
-#        test:
-#          post:
-#            - mkdir -p ~/junit/
-#            - find . -type f -regex ".*/target/jacoco/.*xml" -exec cp {} ~/junit/ \;
-#            - bash <(curl -s https://codecov.io/bash)
 
 
 ## The End... ##
