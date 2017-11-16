@@ -1,13 +1,84 @@
-
-#-----------------------------------------------------------------------------#
-# Application Properties #
+#------------------------------------------------------------------------------#
+# Application YAML #
 # inside ./src/main/resources/application.yml
-#-----------------------------------------------------------------------------#
-# Turn on debug logging to show ConditionEvaluationReport :
+#------------------------------------------------------------------------------#
 debug: false
 
-# Tomcat Server Port:
-server:
-  port: 8888
 
-#-----------------------------------------------------------------------------#
+##---------------------------------------------------------------------------##
+## OAuth2 Configuration:
+security:
+  oauth2:
+  
+    ## OAuth2 Client Config -------------------##
+    client:
+      # Basic Authentication credentials for OAuth2
+      clientId: LAB_ENTRY_HERE
+      clientSecret: LAB_ENTRY_HERE
+
+      # GRANT_TYPE flows
+      authorizedGrantTypes: LAB_ENTRY_HERE
+
+      # Client OAuth2 scope
+      scope: LAB_ENTRY_HERE
+
+    ## Resource Config ------------------------##
+    resource:
+      jwt:
+        keyPair:
+          keystore: keys/jwtConverterStore.p12
+          alias: jbcpoauth2client
+          storePassword: LAB_ENTRY_HERE
+
+
+
+##---------------------------------------------------------------------------##
+# Turn off Security for Actuators:
+management:
+  security:
+    enabled: false
+
+
+
+
+
+##---------------------------------------------------------------------------##
+## NO EDITS NEEDED BELOW HERE !!!
+##---------------------------------------------------------------------------##
+spring:
+  profiles:
+#    active: TLS
+    active: default
+
+  ##---------------------------------------------------------------------------##
+  ## H2 Servlet setting
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /admin/h2
+
+  # Embedded Database
+  datasource:
+    url: jdbc:h2:mem:dataSource;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    continue-on-error: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    # These properties are only needed to dump the JPA generated ddl to a file:
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: create
+              create-target: build/create.sql
+
+##---------------------------------------------------------------------------##

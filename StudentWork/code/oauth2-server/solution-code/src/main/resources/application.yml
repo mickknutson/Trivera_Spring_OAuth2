@@ -2,16 +2,53 @@
 # Application YAML #
 # inside ./src/main/resources/application.yml
 #------------------------------------------------------------------------------#
-#debug: true
+debug: true
 
+
+##---------------------------------------------------------------------------##
+## OAuth2 Configuration:
+security:
+  oauth2:
+
+    ## OAuth2 Client Config -------------------##
+    client:
+      # Basic Authentication credentials for OAuth2
+      clientId: ${OAUTH_CLIENT_ID:oauthClient1}
+      clientSecret: ${OAUTH_CLIENT_SECRET:oauthClient1Password}
+
+      # GRANT_TYPE flows
+      authorizedGrantTypes: password,refresh_token
+
+      # Client OAuth2 scope (openid)
+      scope: openid
+
+    ## Resource Config ------------------------##
+    resource:
+      jwt:
+        keyPair:
+          keystore: keys/jwtConverterStore.p12
+          alias: jbcpoauth2client
+          storePassword: changeit
+
+
+
+##---------------------------------------------------------------------------##
+# Turn off Security for Actuators:
+management:
+  security:
+    enabled: false
+
+
+
+
+
+##---------------------------------------------------------------------------##
+## NO EDITS NEEDED BELOW HERE !!!
+##---------------------------------------------------------------------------##
 spring:
   profiles:
 #    active: TLS
     active: default
-
-#  resource:
-#    chain:
-#      enabled: true
 
   ##---------------------------------------------------------------------------##
   ## H2 Servlet setting
@@ -43,68 +80,5 @@ spring:
             scripts:
               action: create
               create-target: build/create.sql
-
-##---------------------------------------------------------------------------##
-# OAuth2 Configuration:
-security:
-  oauth2:
-    # Client Config:
-    client:
-      # Basic Authentication credentials for OAuth2
-      clientId: ${OAUTH_CLIENT_ID:oauthClient1}
-      clientSecret: ${OAUTH_CLIENT_SECRET:oauthClient1Password}
-
-#      accessTokenUri: https://github.com/login/oauth/access_token
-#      userAuthorizationUri: https://github.com/login/oauth/authorize
-
-      authorizedGrantTypes: password,refresh_token
-      scope: openid
-
-    # Resource Config:
-    resource:
-      jwt:
-        keyPair:
-          keystore: keys/jwtConverterStore.p12
-          alias: jbcpoauth2client
-          storePassword: changeit
-
-        # Keys
-#        keyValue: |
-#          -----BEGIN PUBLIC KEY-----
-#          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArVaM5H8eBALJ51nIHbgd
-#          QeQPioR0R3aLUbAhh++/pma6TFdF+aWIO8nAiC87s1wRAAVjIOcYNZv7hop/EZV7
-#          lPsLNCDrZdPX1dIXVEGcc70flrv77VRB/IruIq/S0g3YOj3mLvH6UCbTL1GZ6Az6
-#          iiRsgPkQTKLEgRfGcB57VKj6RJmyxLgksU6jYEb/pbGCfG+P8fQZlnvbUvwykNOm
-#          RA9+lBgT4S0fBiTcPyrE2XE0EgW6ImOD/GbL2BJ71e0wABGiXDjGlwLFcKFvAEcS
-#          0gBphdHgdorl4H4QV9RcgEiOKg4IhECvXHLZdKIM1VbJw2t8IbRws/nQjqg6ttn2
-#          UQIDAQAB
-#          -----END PUBLIC KEY-----
-
-##---------------------------------------------------------------------------##
-# Turn off Security for Actuator:
-management:
-  security:
-    enabled: false
-
-
-##---------------------------------------------------------------------------##
-## TLS Profile Properties
-
----
-
-spring:
-  profiles: TLS
-
-## Chapter 8 TLS over HTTP/1.1:
-## https://localhost:8443
-server:
-  port: 8443
-  ssl:
-    enabled: true
-    keyStore: "classpath:keys/jbcp_clientauth.p12"
-    keyStorePassword: changeit
-    keyStoreType: PKCS12
-    keyAlias: jbcpclient
-    protocol: TLS
 
 ##---------------------------------------------------------------------------##
