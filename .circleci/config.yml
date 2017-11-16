@@ -15,16 +15,21 @@ jobs:
 
     environment:
       _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
-      MAVEN_OPTS: "-Dmaven.repo.local=./StudentWork/Tools/local/repository"
+      LOCAL_REPO: ../../../Tools/local/repository
+#      LOCAL_REPO: ./StudentWork/Tools/local/repository
+      BASE_DIR: ./StudentWork/code/oauth2-server/solution-code
+      MAVEN_OPTS: "-Dmaven.repo.local=${LOCAL_REPO}"
 
     docker:
       - image: circleci/openjdk:8-jdk-browsers
 #      - image: circleci/postgres:9.6.3-alpine
         environment:
-          _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
-          MAVEN_OPTS: "-Dmaven.repo.local=./StudentWork/Tools/local/repository"
-          LOCAL_REPO: ./StudentWork/Tools/local/repository
+          LOCAL_REPO: ../../../Tools/local/repository
+#          LOCAL_REPO: ./StudentWork/Tools/local/repository
           BASE_DIR: ./StudentWork/code/oauth2-server/solution-code
+
+          _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+          MAVEN_OPTS: "-Dmaven.repo.local=${LOCAL_REPO}"
 
     steps:
 
@@ -37,7 +42,7 @@ jobs:
 #      - run:
 #            name: Download project dependencies
 #            command: mvn dependency:go-offline -e
-#            working_directory: StudentWork/code/oauth2-server/solution-code
+#            working_directory: ${BASE_DIR}
       
 #      - save_cache:
 #          paths:
@@ -58,14 +63,27 @@ jobs:
 #      - run: mvn test
       - run:
             name: Build the Project
-            command: mvn test -e -Dmaven.repo.local=../../../Tools/local/repository
-            working_directory: ./StudentWork/code/oauth2-server/solution-code
+            command: mvn test -e -Dmaven.repo.local=${LOCAL_REPO}
+#            command: mvn test -e -Dmaven.repo.local=../../../Tools/local/repository
+            working_directory: ${BASE_DIR}
       
+      
+      - run:
+          command: |
+            set -xu
+            pwd
+            ls -la ${LOCAL_REPO}
+            ls -la ${BASE_DIR}
+            ls -la ${BASE_DIR}/target
+
+
       - store_test_results:
           path: target/surefire-reports
-      
+          working_directory: ${BASE_DIR}
+
       - store_artifacts:
           path: target/oauth2-server-solution-code-0.0.1-SNAPSHOT.jar
+          working_directory: ${BASE_DIR}
 
 
 ## The End... ##
