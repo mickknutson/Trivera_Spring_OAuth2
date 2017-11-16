@@ -10,14 +10,11 @@ version: 2
 jobs:
   build:
     
-    working_directory: ~/oauth2-server-solution-code
+    working_directory: ~/tmp/workspace
+#    oauth2-server-solution-code
 
     docker:
       - image: circleci/openjdk:8-jdk-browsers
-#      - image: circleci/postgres:9.6.3-alpine
-#        environment:
-#          POSTGRES_USER: root
-#          POSTGRES_DB: circle_test
 
     steps:
 
@@ -26,14 +23,22 @@ jobs:
       - restore_cache:
           key: oauth2-server-solution-code-{{ checksum "pom.xml" }}
       
-      - run: mvn dependency:go-offline
+#      - run: mvn dependency:go-offline
+      - run:
+            name: Download project dependencies
+            command: mvn dependency:go-offline -e
+            working_directory: StudentWork/code/oauth2-server/solution-code
       
       - save_cache:
           paths:
             - ~/.m2
           key: oauth2-server-solution-code-{{ checksum "pom.xml" }}
       
-      - run: mvn test
+#      - run: mvn test
+      - run:
+            name: Build the Project
+            command: mvn test -e
+            working_directory: StudentWork/code/oauth2-server/solution-code
       
       - store_test_results:
           path: target/surefire-reports
