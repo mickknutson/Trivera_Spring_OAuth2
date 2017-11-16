@@ -14,18 +14,17 @@ jobs:
 #    oauth2-server-solution-code
 
     environment:
-      # Customize the JVM maximum heap limit
-#      _JAVA_OPTIONS: "-Xmx3072m"
       _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
-
-      # Turn off Gradle Daemon
-#      MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
       MAVEN_OPTS: "-Dmaven.repo.local=./StudentWork/Tools/local/repository"
-      TERM: dumb
 
-  
     docker:
       - image: circleci/openjdk:8-jdk-browsers
+#      - image: circleci/postgres:9.6.3-alpine
+        environment:
+          _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+          MAVEN_OPTS: "-Dmaven.repo.local=./StudentWork/Tools/local/repository"
+          LOCAL_REPO: ./StudentWork/Tools/local/repository
+          BASE_DIR: ./StudentWork/code/oauth2-server/solution-code
 
     steps:
 
@@ -44,12 +43,23 @@ jobs:
 #          paths:
 #            - ~/.m2
 #          key: oauth2-server-solution-code-{{ checksum "pom.xml" }}
-      
+
+      - run:
+          environment:
+            SSH_TARGET: "localhost"
+            TEST_ENV: "linux"
+          command: |
+            set -xu
+            pwd
+            ls -la
+            ls -la ${LOCAL_REPO}
+            ls -la ${BASE_DIR}
+
 #      - run: mvn test
       - run:
             name: Build the Project
-            command: mvn test -e
-            working_directory: StudentWork/code/oauth2-server/solution-code
+            command: mvn test -e -Dmaven.repo.local=../../../Tools/local/repository
+            working_directory: ./StudentWork/code/oauth2-server/solution-code
       
       - store_test_results:
           path: target/surefire-reports

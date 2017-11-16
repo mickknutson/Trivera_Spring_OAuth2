@@ -12,10 +12,16 @@ jobs:
     
     working_directory: ~/oauth2-server-solution-code
 
+    environment:
+      _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+      MAVEN_OPTS: "-Dmaven.repo.local=./StudentWork/Tools/local/repository"
+
     docker:
       - image: circleci/openjdk:8-jdk-browsers
 #      - image: circleci/postgres:9.6.3-alpine
-#        environment:
+        environment:
+          _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+          MAVEN_OPTS: "-Dmaven.repo.local=./StudentWork/Tools/local/repository"
 #          POSTGRES_USER: root
 #          POSTGRES_DB: circle_test
 
