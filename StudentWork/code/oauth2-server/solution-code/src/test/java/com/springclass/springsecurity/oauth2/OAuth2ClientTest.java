@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -49,19 +50,19 @@ public class OAuth2ClientTest {
 
 
     @Value("${oauth.resource:http://localhost:8080}")
-    private String baseUrl;
+    String baseUrl;
 
     @Value("${oauth.token:http://localhost:8080/oauth/token}")
-    private String tokenUrl;
+    String tokenUrl;
 
     @Value("${oauth.resource.id:microservice-test}")
-    private String resourceId;
+    String resourceId;
 
     @Value("${oauth.resource.client.id:oauthClient1}")
-    private String resourceClientId;
+    String resourceClientId;
 
     @Value("${oauth.resource.client.secret:oauthClient1Password}")
-    private String resourceClientSecret;
+    String resourceClientSecret;
 
     //-----------------------------------------------------------------------//
 
@@ -259,7 +260,6 @@ public class OAuth2ClientTest {
 
     /*
     org.springframework.expression.spel.SpelEvaluationException: EL1008E: Property or field 'timestamp' cannot be found on object of type 'java.util.HashMap' - maybe not public?
-
      */
 //    @Test
     public void test_default_admin1() throws Exception {
@@ -304,6 +304,19 @@ public class OAuth2ClientTest {
             resource.setUsername("user1@example.com");
             resource.setPassword("user1");
         }
+    }
+
+
+    private void printToken(OAuth2AccessToken token){
+        logger.info("-------------------------------------------------------");
+        logger.info("TokenType: {}", token.getTokenType());
+        logger.info("Value: {}", token.getValue());
+        logger.info("-------------------------------------------------------");
+        logger.info("Scope: {}", token.getScope());
+        logger.info("Expiration: {}", token.getExpiration());
+        logger.info("ExpiresIn: {}", token.getExpiresIn());
+        logger.info("RefreshToken: {}", token.getRefreshToken());
+        logger.info("-------------------------------------------------------");
     }
 
 
