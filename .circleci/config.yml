@@ -13,6 +13,17 @@ jobs:
     working_directory: ~/tmp/workspace
 #    oauth2-server-solution-code
 
+    environment:
+      # Customize the JVM maximum heap limit
+#      _JAVA_OPTIONS: "-Xmx3072m"
+      _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+
+      # Turn off Gradle Daemon
+#      MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+      MAVEN_OPTS: "-Dmaven.repo.local=./StudentWork/Tools/local/repository"
+      TERM: dumb
+
+  
     docker:
       - image: circleci/openjdk:8-jdk-browsers
 
@@ -20,19 +31,19 @@ jobs:
 
       - checkout
 
-      - restore_cache:
-          key: oauth2-server-solution-code-{{ checksum "pom.xml" }}
-      
+#      - restore_cache:
+#          key: oauth2-server-solution-code-{{ checksum "pom.xml" }}
+
 #      - run: mvn dependency:go-offline
-      - run:
-            name: Download project dependencies
-            command: mvn dependency:go-offline -e
-            working_directory: StudentWork/code/oauth2-server/solution-code
+#      - run:
+#            name: Download project dependencies
+#            command: mvn dependency:go-offline -e
+#            working_directory: StudentWork/code/oauth2-server/solution-code
       
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: oauth2-server-solution-code-{{ checksum "pom.xml" }}
+#      - save_cache:
+#          paths:
+#            - ~/.m2
+#          key: oauth2-server-solution-code-{{ checksum "pom.xml" }}
       
 #      - run: mvn test
       - run:
