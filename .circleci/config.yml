@@ -56,8 +56,8 @@ jobs:
             ls -la ${BASE_DIR}
 
       - run:
-            name: Build the Project
-            command: mvn test -e -Dmaven.repo.local=../../../Tools/local/repository
+            name: Verify the Project
+            command: mvn verify -Dmaven.repo.local=../../../Tools/local/repository
             working_directory: ./StudentWork/code/oauth2-server/solution-code
 #            working_directory: ${BASE_DIR}
       
@@ -71,7 +71,7 @@ jobs:
             ls -la ${BASE_DIR}/target/surefire-reports
 
       - store_test_results:
-          path: target/surefire-reports
+          path: ${BASE_DIR}/target/surefire-reports
           working_directory: ./StudentWork/code/oauth2-server/solution-code
 #          working_directory: ${BASE_DIR}
 
