@@ -69,16 +69,16 @@ jobs:
             ls -la ${BASE_DIR}
             ls -la ${BASE_DIR}/target
             ls -la ${BASE_DIR}/target/surefire-reports
+            ls -la ${$CIRCLE_TEST_REPORTS}
 
-      test:
-        post:
-          - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-          - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+      - run:
+          command: |
+            set -xu
+            mkdir -p $CIRCLE_TEST_REPORTS/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
 
-#      - store_test_results:
-#          path: ${BASE_DIR}/target/surefire-reports
-#          working_directory: ./StudentWork/code/oauth2-server/solution-code
-##          working_directory: ${BASE_DIR}
+      - store_test_results:
+          path: /target/junit
 
 
 
