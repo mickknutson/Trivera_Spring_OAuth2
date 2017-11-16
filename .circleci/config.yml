@@ -16,7 +16,7 @@ jobs:
     environment:
       _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
 #      LOCAL_REPO: ../../../Tools/local/repository
-#      LOCAL_REPO: ./StudentWork/Tools/local/repository
+      LOCAL_REPO: ./StudentWork/Tools/local/repository
       BASE_DIR: ./StudentWork/code/oauth2-server/solution-code
 #      MAVEN_OPTS: "-Dmaven.repo.local=${LOCAL_REPO}"
 
@@ -25,7 +25,7 @@ jobs:
         environment:
 #          LOCAL_REPO: ../../../Tools/local/repository
           LOCAL_REPO: ./StudentWork/Tools/local/repository
-#          BASE_DIR: ./StudentWork/code/oauth2-server/solution-code
+          BASE_DIR: ./StudentWork/code/oauth2-server/solution-code
 
           _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
           MAVEN_OPTS: "-Dmaven.repo.local=${LOCAL_REPO}"
@@ -63,8 +63,10 @@ jobs:
       - run:
             name: Build the Project
             command: mvn test -e -Dmaven.repo.local=${LOCAL_REPO}
+#            working_directory: ${BASE_DIR}
+            working_directory: ./StudentWork/code/oauth2-server/solution-code
+
 #            command: mvn test -e -Dmaven.repo.local=../../../Tools/local/repository
-            working_directory: ${BASE_DIR}
       
       
       - run:
