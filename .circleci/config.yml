@@ -42,14 +42,11 @@ jobs:
             ls -la ${BASE_DIR}
 
       - run:
-          environment:
-            BASE_DIR: "$BASE_DIR"
-            TEST_ENV: $BASE_DIR
           name: Verify the Project
 #          command: mvn verify -Dmaven.repo.local=../../../Tools/local/repository
           command: mvn verify
-#          working_directory: ./StudentWork/code/oauth2-server/solution-code
-          working_directory: $BASE_DIR
+          working_directory: ./StudentWork/code/oauth2-server/solution-code
+#          working_directory: $BASE_DIR
 
       - run:
           command: |
