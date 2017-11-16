@@ -50,8 +50,6 @@ jobs:
             TEST_ENV: "linux"
           command: |
             set -xu
-            echo ${LOCAL_REPO}
-            echo ${BASE_DIR}
             pwd
             ls -la
             ls -la ${LOCAL_REPO}
@@ -72,14 +70,11 @@ jobs:
             ls -la ${BASE_DIR}/target
             ls -la ${BASE_DIR}/target/surefire-reports
 
-
       - store_test_results:
           path: target/surefire-reports
-          working_directory: ${BASE_DIR}
+          working_directory: ./StudentWork/code/oauth2-server/solution-code
+#          working_directory: ${BASE_DIR}
 
-      - store_artifacts:
-          path: target/oauth2-server-solution-code-0.0.1-SNAPSHOT.jar
-          working_directory: ${BASE_DIR}
 
 
 ## The End... ##
