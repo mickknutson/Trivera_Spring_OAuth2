@@ -9,7 +9,7 @@
 version: 2
 jobs:
   build:
-    
+
     working_directory: ~/tmp/workspace
 
     environment:
@@ -42,25 +42,28 @@ jobs:
             ls -la ${BASE_DIR}
 
       - run:
-            name: Verify the Project
-#            command: mvn verify -Dmaven.repo.local=../../../Tools/local/repository
-            command: mvn verify
-#            working_directory: ./StudentWork/code/oauth2-server/solution-code
-            working_directory: "${BASE_DIR}"
-      
+          environment:
+            BASE_DIR: "$BASE_DIR"
+            TEST_ENV: $BASE_DIR
+          name: Verify the Project
+#          command: mvn verify -Dmaven.repo.local=../../../Tools/local/repository
+          command: mvn verify
+#          working_directory: ./StudentWork/code/oauth2-server/solution-code
+          working_directory: $BASE_DIR
+
       - run:
           command: |
             set -xu
             pwd
             ls -la ${LOCAL_REPO}
             ls -la ${BASE_DIR}
-            ls -la ${BASE_DIR}/target
-            ls -la ${BASE_DIR}/target/surefire-reports
+            ls -la $BASE_DIR/target
+            ls -la $BASE_DIR/target/surefire-reports
 
       - run:
-          name: Save test results 
+          name: Save test results
           command: |
-            mkdir -p ~/junit/ 
+            mkdir -p ~/junit/
             find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
           when: always
       - store_test_results:
