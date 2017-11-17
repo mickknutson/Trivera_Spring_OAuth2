@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
 
     <groupId>com.springclass.oauth2</groupId>
-    <artifactId>code</artifactId>
+    <artifactId>oauth2-code</artifactId>
     <version>2.0-RELEASE</version>
 
     <name>Trivera Spring OAuth2: Code Shell Only</name>

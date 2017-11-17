@@ -38,7 +38,6 @@ jobs:
             set -xu
             echo $CIRCLE_WORKING_DIRECTORY
             mkdir -p ~/junit/
-            mkdir -p ${TEST_REPORTS}
             pwd
             ls -la
             ls -la ${BASE_DIR}
