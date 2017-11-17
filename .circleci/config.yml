@@ -5,8 +5,6 @@
 #
 # TO Revisit:
 # https://github.com/AnySoftKeyboard/AnySoftKeyboard/blob/master/circle.yml
-# To replicate this script in other Maven projects:
-# Must change the $BASE_DIR
 ##---------------------------------------------------------------------------##
 version: 2
 jobs:
@@ -17,13 +15,13 @@ jobs:
     environment:
       _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
 #      LOCAL_REPO: ./StudentWork/Tools/local/repository
-      BASE_DIR: "./StudentWork/code/oauth2-server/solution-code"
+      BASE_DIR: "./StudentWork/code"
 
     docker:
       - image: circleci/openjdk:8-jdk-browsers
         environment:
           LOCAL_REPO: ./StudentWork/Tools/local/repository
-          BASE_DIR: "./StudentWork/code/oauth2-server/solution-code"
+          BASE_DIR: "./StudentWork/code"
           _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
           MAVEN_OPTS: "-Dmaven.repo.local=../../../Tools/local/repository"
 
@@ -46,7 +44,7 @@ jobs:
       - run:
           name: Verify the Project
           command: mvn verify
-          working_directory: ./StudentWork/code/oauth2-server/solution-code
+          working_directory: ./StudentWork/code
           # Does not seem to work:
 #          working_directory: $BASE_DIR
 
@@ -56,8 +54,6 @@ jobs:
             pwd
             ls -la ${LOCAL_REPO}
             ls -la ${BASE_DIR}
-            ls -la $BASE_DIR/target
-            ls -la $BASE_DIR/target/surefire-reports
 
       - run:
           name: Save test results
