@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @since chapter16.00
  */
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
